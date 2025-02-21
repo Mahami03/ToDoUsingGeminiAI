@@ -1,7 +1,57 @@
 {% include 'layout.html' %}
 
-<div class="container">
-  <div class="card">
+<style>
+  /* Override global dark theme for this page */
+  body {
+    background-color: #fff !important;
+    color: #000;
+  }
+
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 1rem;
+  }
+  .card-body {
+    background-color: #fff;
+    padding: 1.5rem;
+  }
+  .form-group label {
+    font-weight: 500;
+  }
+  .form-control {
+    border: 1px solid #ccc;
+  }
+  /* Button Styles */
+  .btn-primary {
+    background-color: #000;
+    border-color: #000;
+  }
+  .btn-primary:hover {
+    background-color: #333;
+    border-color: #333;
+  }
+  .btn-success {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+  }
+  .btn-success:hover {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="card shadow-sm">
     <div class="card-header">
       Make a new todo
     </div>
@@ -25,7 +75,7 @@
             <option>5</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary"> Add new todo </button>
+        <button type="submit" class="btn btn-primary">Add new todo</button>
         <a href="/todo/todo-page" class="btn btn-success">Back</a>
       </form>
     </div>

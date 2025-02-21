@@ -12,7 +12,7 @@
                 title: data.title,
                 description: data.description,
                 priority: parseInt(data.priority),
-                complete: false
+                completed: false
             };
 
             try {
@@ -26,7 +26,8 @@
                 });
 
                 if (response.ok) {
-                    form.reset(); // Clear the form
+                    form.reset();
+                    window.location.href = '/todo/todo-page';// Clear the form
                 } else {
                     // Handle error
                     const errorData = await response.json();
@@ -54,7 +55,7 @@
             title: data.title,
             description: data.description,
             priority: parseInt(data.priority),
-            complete: data.complete === "on"
+            completed: data.completed === "on"
         };
 
         try {

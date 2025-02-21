@@ -1,61 +1,122 @@
-{% include 'layout.html' %}
+{% extends "layout.html" %}
 
-<div class="container">
-    <div class="card text-center">
-        <div class="card-header">
-            Your Todo's!
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                List of your todo's!
-            </h5>
-            <p class="card-text">
-                Information regarding stuff that needs to be complete
-            </p>
+{% block content %}
+<style>
+  /* Override global dark theme for this page */
+  body {
+    background-color: #fff !important;
+    color: #000;
+  }
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+  .card-header h4 {
+    color: #000;
+  }
+  .card-body {
+    background-color: #fff;
+  }
+  /* Custom table styling */
+  .custom-table th,
+  .custom-table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+    border-top: 1px solid #ddd;
+  }
+  .custom-table thead th {
+    border-bottom: 2px solid #ccc;
+  }
+  /* Custom badge styling */
+  .custom-badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 75%;
+    font-weight: 700;
+    border-radius: 0.25rem;
+  }
+  /* Completed task style */
+  .text-completed {
+    text-decoration: line-through;
+    color: #555;
+  }
+</style>
 
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Info</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for todo in todos %}
-                {% if todo.complete == False %}
-                <tr class="pointer">
-                    <td>{{loop.index}}</td>
-                    <td>{{todo.title}}</td>
-                    <td>
-                        <button onclick="window.location.href='edit-todo-page/{{todo.id}}'"
-                                type="button" class="btn btn-info">
-                            Edit
-                        </button>
-                    </td>
-                </tr>
-                {% else %}
-                <tr class="pointer alert alert-success">
-                    <td>{{loop.index}}</td>
-                    <td class="strike-through-td">{{todo.title}}</td>
-                    <td>
-                        <button onclick="window.location.href='edit-todo-page/{{todo.id}}'"
-                                type="button" class="btn btn-info">
-                            Edit
-                        </button>
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-                </tbody>
-            </table>
-            <a href="add-todo-page" class="btn btn-primary">Add a new todo!</a>
-        </div>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-header text-center">
+      <h4 class="mb-0">Your Todo List</h4>
     </div>
+    <div class="card-body">
+      <p class="lead text-center">Stay on top of your tasks and achieve more every day.</p>
+      <div class="table-responsive">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Task</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for todo in todos|sort(attribute='priority') %}
+            <tr>
+              <td>
+                {% if todo.priority == 1 %}
+                  <span class="custom-badge" style="background-color: #ff4d4d; border: 1px solid #ff0000; color: #fff;">
+                    {{ todo.priority }}
+                  </span>
+                {% elif todo.priority == 2 %}
+                  <span class="custom-badge" style="background-color: #ff9999; border: 1px solid #ff6666; color: #fff;">
+                    {{ todo.priority }}
+                  </span>
+                {% elif todo.priority == 3 %}
+                  <span class="custom-badge" style="background-color: #ffcccc; border: 1px solid #ffb3b3; color: #000;">
+                    {{ todo.priority }}
+                  </span>
+                {% elif todo.priority == 4 %}
+                  <span class="custom-badge" style="background-color: #ffe6e6; border: 1px solid #ffcccc; color: #000;">
+                    {{ todo.priority }}
+                  </span>
+                {% else %}
+                  <span class="custom-badge" style="background-color: #fff; border: 1px solid #ddd; color: #000;">
+                    {{ todo.priority }}
+                  </span>
+                {% endif %}
+              </td>
+              <td>
+                <span {% if todo.completed %}class="text-completed"{% endif %}>
+                  {{ todo.title }}
+                </span>
+              </td>
+              <td>
+                {% if todo.completed %}
+                  <span class="custom-badge" style="background-color: #e0e0e0; border: 1px solid #ccc; color: #000;">Completed</span>
+                {% else %}
+                  <span class="custom-badge" style="background-color: #fff; border: 1px solid #000; color: #000;">Pending</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="edit-todo-page/{{ todo.id }}" class="btn btn-outline-dark btn-sm">
+                  Edit
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="text-end">
+        <a href="add-todo-page" class="btn btn-dark mt-3">
+          Add a New Todo
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-
-
-
+{% endblock %}
